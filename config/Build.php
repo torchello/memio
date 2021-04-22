@@ -13,6 +13,8 @@ namespace Memio\Memio\Config;
 
 use Memio\PrettyPrinter\PrettyPrinter;
 use Memio\Validator\Validator;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class Build
 {
@@ -22,7 +24,7 @@ class Build
     public static function linter()
     {
         $argumentValidator = new \Memio\Validator\ModelValidator\ArgumentValidator();
-        $argumentValidator->add(new \Memio\Linter\ArgumentCannotBeScalar());
+//        $argumentValidator->add(new \Memio\Linter\ArgumentCannotBeScalar());
 
         $collectionValidator = new \Memio\Validator\ModelValidator\CollectionValidator();
         $collectionValidator->add(new \Memio\Linter\CollectionCannotHaveNameDuplicates());
@@ -61,8 +63,8 @@ class Build
      */
     public static function prettyPrinter()
     {
-        $loader = new \Twig_Loader_Filesystem(\Memio\TwigTemplateEngine\Config\Locate::templates());
-        $twig = new \Twig_Environment($loader);
+        $loader = new FilesystemLoader(\Memio\TwigTemplateEngine\Config\Locate::templates());
+        $twig = new Environment($loader);
 
         $line = new \Memio\TwigTemplateEngine\TwigExtension\Line\Line();
         $line->add(new \Memio\TwigTemplateEngine\TwigExtension\Line\ContractLineStrategy());
